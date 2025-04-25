@@ -1,60 +1,59 @@
 <?php
-    session_start();
-    $conn = new mysqli("localhost", "root", "", "farmiq");
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header('Location: auth/login.php');
+    exit;
+}
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $product_name = $_POST['product-name'];
-        $price = $_POST['price'];
-        $quantity = $_POST['quantity'];
-        $user_id = $_SESSION['user_id'];
-        $stmt = $conn->prepare("INSERT INTO marketplace_items (user_id, product_name, price, quantity) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("issi", $user_id, $product_name, $price, $quantity);
-        $stmt->execute();
-        $stmt->close();
-    }
-    ?>
+$conn = new mysqli("localhost", "root", "", "farmiq");
+$marketplace_items = $conn->query("SELECT * FROM marketplace_items");
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Farm Marketplace - FarmIQ</title>
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <header>
-            <h1>🌾 FarmIQ - Marketplace</h1>
-        </header>
-        <main>
-            <form method="POST">
-                <label for="product-name">Product Name:</label>
-                <input type="text" id="product-name" name="product-name" required>
+?>
 
-                <label for="price">Price:</label>
-                <input type="number" id="price" name="price" required>
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <title>Marketplace - FarmIQ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen font-sans text-gray-900 bg-gray-50">
+    <div class="flex">
+        <!-- Sidebar (Same as in Dashboard) -->
+        <aside class="bg-blue-600 w-64 min-h-screen p-6 text-white">
+            <h2 class="text-2xl font-bold mb-8">🌾 HandyCrofter</h2>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-semibold">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="dashboard.php" class="text-white hover:underline">Dashboard</a></li>
+                        <li><a href="community.php" class="text-white hover:underline">Community</a></li>
+                        <li><a href="tasks.php" class="text-white hover:underline">Tasks</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
 
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" required>
+        <!-- Main Content -->
+        <main class="flex-1 p-10">
+            <header class="bg-blue-500 text-white py-6 shadow-md">
+                <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+                    <h1 class="text-3xl font-bold">Marketplace</h1>
+                </div>
+            </header>
 
-                <button type="submit">Add Product</button>
-            </form>
-
-            <section>
-                <h2>Available Products</h2>
-                <table>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                    </tr>
-                    <?php
-                    $result = $conn->query("SELECT * FROM marketplace_items");
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr><td>{$row['product_name']}</td><td>{$row['price']}</td><td>{$row['quantity']}</td></tr>";
-                    }
-                    ?>
-                </table>
+            <section class="max-w-7xl mx-auto px-4 py-10 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                <?php while ($item = $marketplace_items->fetch_assoc()): ?>
+                    <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 p-4">
+                        <?php if ($item['image_url']): ?>
+                            <img src="<?php echo $item['image_url']; ?>" class="w-full h-32 object-cover rounded mb-3" alt="Item Image">
+                        <?php endif; ?>
+                        <div class="font-medium text-lg"><?php echo $item['item_name']; ?></div>
+                        <div class="text-sm text-gray-500">৳<?php echo $item['price']; ?> | Qty: <?php echo $item['quantity']; ?></div>
+                    </div>
+                <?php endwhile; ?>
             </section>
         </main>
-    </body>
-    </html>
+    </div>
+</body>
+</html>
