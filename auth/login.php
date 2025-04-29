@@ -26,8 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Login - Handy Crofter</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-tr from-green-100 via-white to-green-50 min-h-screen flex items-center justify-center font-sans">
-    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg border border-gray-200">
+<body class="flex items-center justify-center min-h-screen font-sans text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 w-full max-w-md">
         <h1 class="text-3xl font-bold text-center text-green-700">🌾 Login to HandyCrofter</h1>
 
         <?php if (!empty($error)): ?>
@@ -38,15 +38,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <form method="POST" class="space-y-4">
             <div>
-                <label for="username" class="block mb-1 text-sm font-medium text-gray-700">Username</label>
+                <label for="username" class="block mb-1 text-sm font-medium ">Username</label>
                 <input type="text" id="username" name="username" required
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
+                       class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
             </div>
 
             <div>
-                <label for="password" class="block mb-1 text-sm font-medium text-gray-700">Password</label>
+                <label for="password" class="block mb-1 text-sm font-medium ">Password</label>
                 <input type="password" id="password" name="password" required
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
+                       class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
             </div>
 
             <button type="submit"
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </button>
         </form>
 
-        <div class="text-sm text-center text-gray-600">
+        <div class="text-sm text-center">
             Don’t have an account? <a href="register.php" class="text-green-600 hover:underline">Register</a>
         </div>
     </div>
