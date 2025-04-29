@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit" class="w-full bg-green-600 hover:bg-green-500 text-white py-2 rounded-lg font-semibold">Register</button>
         </form>
 
-        <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
+        <p class="mt-4 text-center text-sm">
             Already have an account?
             <a href="login.php" class="text-green-700 dark:text-green-400 font-semibold hover:underline">Login here</a>.
         </p>
